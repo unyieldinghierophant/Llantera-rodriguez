@@ -36,16 +36,7 @@
       overflow-x: hidden;
     }
 
-    /* ─── NOISE TEXTURE OVERLAY ─── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.6;
-    }
+    /* ─── NO NOISE OVERLAY ─── */
 
     /* ─── NAV ─── */
     nav {
@@ -108,64 +99,46 @@
       overflow: hidden;
     }
 
-    /* Diagonal geometric background */
+    /* Video background */
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .hero-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    /* Dark overlay so text stays readable */
+    .hero-video::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(13,13,13,0.96) 0%,
+        rgba(13,13,13,0.65) 50%,
+        rgba(13,13,13,0.4) 100%
+      );
+    }
+
+    /* Fallback bg in case video doesn't load */
     .hero-bg {
       position: absolute;
       inset: 0;
-      background: var(--black);
-      overflow: hidden;
-    }
-    .hero-bg::before {
-      content: '';
-      position: absolute;
-      top: -20%;
-      right: -10%;
-      width: 65%;
-      height: 140%;
-      background: var(--dark);
-      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
-    }
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      top: 30%;
-      right: 8%;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--orange-glow) 0%, transparent 70%);
-    }
-
-    /* Tire tread pattern */
-    .tread-pattern {
-      position: absolute;
-      top: 0; right: 0;
-      width: 55%;
-      height: 100%;
-      opacity: 0.04;
-      background-image:
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 18px,
-          #f26522 18px,
-          #f26522 22px
-        ),
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 60px,
-          #f26522 60px,
-          #f26522 64px
-        );
+      background: #111;
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--orange-glow);
-      border: 1px solid rgba(242,101,34,0.3);
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(242,101,34,0.4);
       color: var(--orange);
       font-size: 12px;
       font-weight: 500;
@@ -181,12 +154,6 @@
       width: 7px; height: 7px;
       border-radius: 50%;
       background: var(--orange);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
     }
 
     .hero-content { position: relative; z-index: 2; max-width: 720px; }
@@ -402,7 +369,7 @@
       box-shadow:
         0 0 0 4px var(--border),
         inset 0 0 0 4px var(--border);
-      animation: slowSpin 30s linear infinite;
+      animation: slowSpin 60s linear infinite;
     }
 
     .tire-graphic::before {
@@ -451,6 +418,8 @@
     }
 
     .why-points { display: flex; flex-direction: column; gap: 28px; margin-top: 48px; }
+
+    /* ─── REVIEWS ─── */
 
     .why-point {
       display: flex;
@@ -801,8 +770,20 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg">
-      <div class="tread-pattern"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-video">
+      <!-- Pexels: Mechanic Fixing Car Tire (free, commercial use) by utopia36 -->
+      <!-- Replace src with downloaded file or use Pexels embed player below -->
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        poster="https://images.pexels.com/videos/14514795/pictures/preview-0.jpg">
+        <source src="https://www.pexels.com/download/video/14514795/" type="video/mp4" />
+        <!-- Fallback: tire tread closeup -->
+        <source src="https://www.pexels.com/download/video/5302693/" type="video/mp4" />
+      </video>
     </div>
     <div class="hero-content">
       <div class="hero-badge">
